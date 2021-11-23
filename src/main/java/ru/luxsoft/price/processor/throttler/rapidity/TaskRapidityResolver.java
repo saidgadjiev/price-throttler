@@ -4,6 +4,9 @@ import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class detects rapidity of task. We need this to know which subscriber is fast, which is slow.
+ */
 public class TaskRapidityResolver {
 
     private long slowTaskLowerBoundInSeconds;
@@ -18,9 +21,9 @@ public class TaskRapidityResolver {
         runnable.run();
         timeMeter.stop();
 
-        long seconds = timeMeter.getTime(TimeUnit.SECONDS);
+        long elapsedTimeInSeconds = timeMeter.getTime(TimeUnit.SECONDS);
 
-        return seconds >= slowTaskLowerBoundInSeconds ? Rapidity.SLOW : Rapidity.FAST;
+        return elapsedTimeInSeconds >= slowTaskLowerBoundInSeconds ? Rapidity.SLOW : Rapidity.FAST;
     }
 
     public enum Rapidity {
